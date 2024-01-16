@@ -13,6 +13,22 @@ booksservice_tests:
         isbn=booksService.create(title, pages, price)
         assert_equals(expected_isbn, isbn)
 
+    valid_parameters_creates_isbn:
+        context:
+            isbngeneratorService=Mock()
+            isbngeneratorService.expect(next()).and_return('ISBN-1-dk')
+            storeService=Dummy()
+            contentService=Dummy()
+            booksService=BooksService(isbngeneratorService, storeService, contentService)
+        title='Testing'
+        pages=100
+        price=19.99
+        expected_isbn = 'Isbn-1-dk'
+        isbn=booksService.create(title, pages, price)
+        assert_equals(expected_isbn, isbn)
+        isbngeneratorService.validate()
+
+
 
     invalid_title_signals_error:
         context:
