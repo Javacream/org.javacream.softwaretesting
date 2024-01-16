@@ -1,0 +1,33 @@
+booksservice_tests:
+    context:
+        isbngeneratorService=IsbnGeneratorService()
+        storeService=StoreService()
+        booksService=BooksService(isbngeneratorService, storeService)
+
+    valid_parameters_creates_isbn:
+        title='Testing'
+        pages=100
+        price=19.99
+        isbn=booksService.create(title, pages, price)
+        assert_notnull(isbn)
+    invalid_title_signals_error:
+        title=None
+        pages=100
+        price=19.99
+        result=booksService.create(title, pages, price)
+        assert_failure(result)
+    valid_isbn_finds_book:
+        isbn='ISBN-1-dk'
+        result=booksService.find_by_isbn(isbn)
+        # ich finde keine gültige assertion finden!
+    valid_isbn_finds_book:
+        title='Testing'
+        pages=100
+        price=19.99
+        isbn=booksService.create(title, pages, price)
+        book=booksService.find_by_isbn(isbn)
+        assert_notnull(book)
+        assert_equals(title, book.title)
+
+
+    
