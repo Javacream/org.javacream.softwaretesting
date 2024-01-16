@@ -1,9 +1,11 @@
 booksservice_tests:
     context:
         isbngeneratorService=IsbnGeneratorService()
+        isbnGeneratorService=Spy(PERFORMANCE, isbngeneratorService)
         storeService=StoreService()
+        storeService=Spy([TRACE, PERFORMANCE], storeService)
         booksService=BooksService(isbngeneratorService, storeService)
-
+        booksService=Spy(TRACE, booksService)
     valid_parameters_creates_isbn:
         title='Testing'
         pages=100
