@@ -10,6 +10,20 @@ booksservice_tests:
         price=19.99
         isbn=booksService.create(title, pages, price)
         assert_notnull(isbn)
+
+    valid_parameters_creates_isbn:
+        context:
+            isbngeneratorService=Dummy()
+            storeService=Dummy()
+            booksService=BooksService(isbngeneratorService, storeService)
+        title='Testing'
+        pages=100
+        price=19.99
+        expected_isbn = 'String'
+        isbn=booksService.create(title, pages, price)
+        assert_equals(expected_isbn, isbn)
+
+
     invalid_title_signals_error:
         title=None
         pages=100
