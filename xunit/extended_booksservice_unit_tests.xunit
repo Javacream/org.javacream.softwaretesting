@@ -1,0 +1,58 @@
+booksservice_tests:
+
+    valid_parameters_creates_isbn:
+        context:
+            isbngeneratorService=Dummy()
+            storeService=Dummy()
+            contentService=Dummy()
+            booksService=BooksService(isbngeneratorService, storeService, contentService)
+        title='Testing'
+        pages=100
+        price=19.99
+        expected_isbn = 'String'
+        isbn=booksService.create(title, pages, price)
+        assert_equals(expected_isbn, isbn)
+
+
+    invalid_title_signals_error:
+        context:
+            isbngeneratorService=Dummy()
+            storeService=Dummy()
+            contentService=Dummy()
+            booksService=BooksService(isbngeneratorService, storeService, contentService)
+        title=None
+        pages=100
+        price=19.99
+        result=booksService.create(title, pages, price)
+        assert_failure(result)
+
+    valid_isbn_finds_book:
+        context:
+            isbngeneratorService=Mock()
+            isbngeneratorService.expect(next()).and_return('ISBN-1-dk')
+            storeService=Mock()
+            storeService.expect(get_stock('books', 'ISBN-1-dk')).and_return(42)
+            contentService=Dummy()
+            booksService=BooksService(isbngeneratorService, storeService, contentService)
+        title='Testing'
+        pages=100
+        price=19.99
+        isbn=booksService.create(title, pages, price)
+        book=booksService.find_by_isbn(isbn)
+        assert_notnull(book)
+        assert_equals(title, book.title)
+        assert_true(book.available)
+
+    valid_isbn_finds_book_content:
+        context:
+            isbngeneratorService=Dummy()
+            storeService=Dummy()
+            contentService=Mock()
+            contentService.expect(content_for('books/ISBN1.pdf')).and_return('book content')
+            booksService=BooksService(isbngeneratorService, storeService, contentService)
+        isbn='ISBN1'
+        expected_content = 'book content'
+        content=booksService.content_for(isbn)
+        assert_equals(expected_content, content)
+
+    
