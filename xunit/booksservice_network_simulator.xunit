@@ -1,0 +1,13 @@
+booksservice_tests:
+    context:
+        isbngeneratorService=IsbnGeneratorService()
+        storeService=StoreService()
+        booksService=BooksService(isbngeneratorService, storeService)
+        booksService=Spy(TRACE, booksService)
+    
+    update_book_uses_call_by_value:
+        book = {isbn: 'Isbn', title: 'Title'}
+        booksService.update(book)
+        search_book = booksService.find_by('Isbn')
+        book.title='Changed'
+        assert_true(search_book.title == 'Title' )
