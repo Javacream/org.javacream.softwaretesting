@@ -46,10 +46,22 @@ booksservice_test_suite:
             assert_notnull(book)
 
     find_all_test_suite:
+        fixture:
+            isbngenerator = Dummy()
+            storeservice = Dummy()
+            booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
         #TODO
     update_test_suite:
+        fixture:
+            isbngenerator = Dummy()
+            storeservice = Dummy()
+            booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
         #TODO
     delete_by_isbn_test_suite:
+        fixture:
+            isbngenerator = Dummy()
+            storeservice = Dummy()
+            booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
         #TODO
 
     
