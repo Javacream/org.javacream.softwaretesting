@@ -3,6 +3,11 @@ isbngeneratorservice_test_suite:
         PREFIX = "ISBN"
         COUNTRY_CODE = "-dk"
         isbngenerator = IsbnGeneratorService(prefix, country_code)
+        database:
+            type: mysql
+            schema: isbn_schema.sql
+            data: isbn_data.sql
+
     next_test_suite:
         isbn_is_generated:
             isbn = isbngenerator.next()
