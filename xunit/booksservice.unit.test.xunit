@@ -7,6 +7,10 @@ booksservice_test_suite:
                 isbngenerator.expect(next()).and_return(ISBN)
                 storeservice = Dummy()
                 booksservice = BooksService(isbngenerator, storeservice)
+                database:
+                    type='mysql'
+                    schema='schema.sql'
+                    data='data.sql'
             title='Testing'
             pages=100
             price=19.99
@@ -31,9 +35,16 @@ booksservice_test_suite:
                 storeservice = Mock()
                 storeservice.expect(get_stock('books', String.any)).and_return(42)
                 booksservice = BooksService(isbngenerator, store_service) 
+                database:
+                    type='mysql'
+                    schema='schema.sql'
+                    data='data.sql'
             isbn='ISBN-1-dk'
             result=booksservice.find_by_isbn(isbn)
-            # ich finde leider keine gültige assertion...
+            assert_notnull(result)
+            assert_equals('Python', result.title)
+            assert_true(result.available)
+
         valid_isbn_finds_book_if_book_is_created:
             fixture:
                 isbngenerator = Dummy()
