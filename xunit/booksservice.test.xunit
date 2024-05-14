@@ -1,12 +1,11 @@
 booksservice_test_suite:
-    fixture:
-        booksservice = BooksService() # So wird CDI entscheiden, was für ein BooksService genommen wird
     create_test_suite:
-        fixture:
-            ISBN_PREFIX = 'Test-ISBN'
-            isbngenerator = IsbnGenerator(ISBN_PREFIX, '-is')
-            booksservice = BooksService(isbngenerator) # So wird CDI entscheiden, was für ein BooksService genommen wird
         valid_parameters_creates_isbn:
+            fixture:
+                ISBN_PREFIX = 'Test-ISBN'
+                isbngenerator = IsbnGenerator(ISBN_PREFIX, '-is')
+                storeservice = Dummy()
+                booksservice = BooksService(isbngenerator, storeservice) # So wird CDI entscheiden, was für ein BooksService genommen wird
             title='Testing'
             pages=100
             price=19.99
@@ -15,6 +14,10 @@ booksservice_test_suite:
             assert_true(isbn.starts_with(ISBN_PREFIX) )
 
         invalid_title_signals_error:
+            fixture:
+                isbngenerator = Dummy()
+                storeservice = Dummy()
+                booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
             title=None
             pages=100
             price=19.99
@@ -23,10 +26,18 @@ booksservice_test_suite:
 
     find_by_isbn_test_suite:
         valid_isbn_finds_book:
+            fixture:
+                isbngenerator = Dummy()
+                storeservice = Dummy()
+                booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
             isbn='ISBN-1-dk'
             result=find_by_isbn(isbn)
             # ich finde leider keine gültige assertion...
         valid_isbn_finds_book_if_book_is_created:
+            fixture:
+                isbngenerator = Dummy()
+                storeservice = Dummy()
+                booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
             title='Testing'
             pages=100
             price=19.99
