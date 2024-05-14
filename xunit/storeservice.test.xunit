@@ -1,10 +1,10 @@
 storeservice_test_suite:
     get_stock_test_suite:
         retrieves_stock:
-                category='books'
-                item='4711'
-                stock = get_stock(category, item)
-                assert_true(stock >= 0)
+            category='books'
+            item='4711'
+            stock = get_stock(category, item)
+            assert_true(stock >= 0)
         signals_error_if_category_is_undefined:
             category=None
             item='4711'
