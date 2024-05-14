@@ -13,11 +13,11 @@
     * Mittagspause 45’ 12:15-13:00
    * 9:00 - 9:30: Vorstellung und Organisatorisches
    * 15:45 - 16:15: "Cool down" mit Rekapitulation der Inhalte des jeweiligen Tages, Fertigstellen von Übungen, Fragen, Diskussionen, ...
-*  Seminarzeiten Dienstag / Mittwoch (falls möglich)
+*  Seminarzeiten Dienstag / Mittwoch
   * 12 Unterrichtseinheiten mit jeweils etwa 90 Minuten
     * 8:15 - 15:30
     * Kaffeepausen 10:00 - 10:15 und 14:15 - 14:30
-    * Mittagspause 45’ 12:00-13:45
+    * Mittagspause 45’ 12:00-12:45
    * 8:15 - 8:30: "Come Together" mit Umgebung einrichten, gibt es Fragen / Wünsche / Anmerkungen, ...
    * 15:15 - 15:30: "Cool down" mit Rekapitulation der Inhalte des jeweiligen Tages, Fertigstellen von Übungen, Fragen, Diskussionen, ...
 
