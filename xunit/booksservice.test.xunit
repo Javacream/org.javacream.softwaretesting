@@ -1,11 +1,18 @@
 booksservice_test_suite:
+    fixture:
+        booksservice = BooksService() # So wird CDI entscheiden, was für ein BooksService genommen wird
     create_test_suite:
+        fixture:
+            ISBN_PREFIX = 'Test-ISBN'
+            isbngenerator = IsbnGenerator(ISBN_PREFIX, '-is')
+            booksservice = BooksService(isbngenerator) # So wird CDI entscheiden, was für ein BooksService genommen wird
         valid_parameters_creates_isbn:
             title='Testing'
             pages=100
             price=19.99
             isbn=create(title, pages, price)
             assert_notnull(isbn)
+            assert_true(isbn.starts_with(ISBN_PREFIX) )
 
         invalid_title_signals_error:
             title=None
