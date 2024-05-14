@@ -1,18 +1,22 @@
 isbngeneratorservice_test_suite:
+    fixture:
+        PREFIX = "ISBN"
+        COUNTRY_CODE = "-dk"
+        isbngenerator = IsbnGeneratorService(prefix, country_code)
     next_test_suite:
         isbn_is_generated:
-            isbn = next()
+            isbn = isbngenerator.next()
             assert_notnull(isbn)
         generated_isbn_has_prefix:
-            prefix = 'ISBN-'
-            isbn = next()
-            assert_true(isbn.starts_with(prefix))
+            # prefix = 'ISBN-'
+            isbn = isbngenerator.next()
+            assert_true(isbn.starts_with(PREFIX))
         generated_isbn_has_2_hyphens:
-            isbn = next()
+            isbn = isbngenerator.next()
             splitted = isbn.split('-')
             assert_equal(3, splitted.length)
         generated_isbn_has_country_code:
-            isbn = next()
+            isbn = isbngenerator.next()
             splitted = isbn.split('-')
             country_code = splitted[2]
-            assert_equals(2, country_code.length)
+            assert_equals(COUNTRY_CODE, country_code.length)
