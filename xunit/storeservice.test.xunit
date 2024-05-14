@@ -1,14 +1,8 @@
 storeservice_test_suite:
-    # static fixture: # ausgeführt exakt einmal, nur in Ausnahmefällen zu empfehlen
-    fixture: # ausgeführt vor jedem Test Case
+    fixture: 
         storeservice = StoreService()
     get_stock_test_suite:
-        # fixture:
-            storeservice = StoreService()
         retrieves_stock:
-            # fixture:
-                storeservice = StoreService()
-            # store_service = StoreService() # Nie so, zu testende Objekte immer in einer Fixture
             category='books'
             item='4711'
             stock = storeservice.get_stock(category, item)
