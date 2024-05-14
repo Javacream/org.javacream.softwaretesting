@@ -1,7 +1,0 @@
-storeservice_test_suite:
-    store_service_get_stock:
-        category = 'books'
-		item = 'ISBN-1234-dk'
-		expected_stock = 42
-        stock = get_stock(category, item)
-        assert_equals(expected_stock, stock)

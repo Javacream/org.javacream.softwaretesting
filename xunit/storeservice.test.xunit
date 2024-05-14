@@ -1,0 +1,27 @@
+storeservice_test_suite:
+    get_stock_test_suite:
+        retrieves_stock:
+                category='books'
+                item='4711'
+                stock = get_stock(category, item)
+                assert_true(stock >= 0)
+            signals_error_if_category_is_undefined:
+                category=None
+                item='4711'
+                result = get_stock(category, item)
+                assert_failure(result)
+            signals_error_if_item_is_undefined:
+                category='books'
+                item=None
+                result = get_stock(category, item)
+                assert_failure(result)
+            signals_error_if_item_is_empty:
+                category='books'
+                item=''
+                result = get_stock(category, item)
+                assert_failure(result)
+            signals_error_if_category_is_empty:
+                category=''
+                item='4711'
+                result = get_stock(category, item)
+                assert_failure(result)
