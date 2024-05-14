@@ -3,7 +3,7 @@ booksservice_test_suite:
         valid_parameters_creates_isbn:
             fixture:
                 ISBN_PREFIX = 'Test-ISBN'
-                isbngenerator = IsbnGenerator(ISBN_PREFIX, '-is')
+                isbngenerator = RandomIsbnGenerator(ISBN_PREFIX, '-is') # Erzeugt ISBNs mit Zufallszahlen
                 storeservice = Dummy()
                 booksservice = BooksService(isbngenerator, storeservice) # So wird CDI entscheiden, was für ein BooksService genommen wird
             title='Testing'
@@ -28,7 +28,7 @@ booksservice_test_suite:
         valid_isbn_finds_book:
             fixture:
                 isbngenerator = Dummy()
-                storeservice = Dummy()
+                storeservice = MapStoreService() # Hält eine In-Memory-Implementierung eines Stores
                 booksservice = BooksService(isbngenerator, store_service) # So wird CDI entscheiden, was für ein BooksService genommen wird
             isbn='ISBN-1-dk'
             result=find_by_isbn(isbn)
