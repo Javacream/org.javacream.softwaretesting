@@ -6,7 +6,9 @@ booksservice_test_suite:
                 isbngenerator = Mock()
                 isbngenerator.expect(next()).and_return(ISBN)
                 storeservice = Dummy()
+                storeservice = Spy(TRACE, storeservice)
                 booksservice = BooksService(isbngenerator, storeservice)
+                booksservice = Spy(TRACE, PERFORMANCE, booksservice) 
                 database:
                     type='mysql'
                     schema='schema.sql'
@@ -20,7 +22,7 @@ booksservice_test_suite:
             fixture:
                 isbngenerator = Dummy()
                 storeservice = Dummy()
-                booksservice = BooksService(isbngenerator, store_service) 
+                booksservice = BooksService(isbngenerator, store_service)
             title=None
             pages=100
             price=19.99

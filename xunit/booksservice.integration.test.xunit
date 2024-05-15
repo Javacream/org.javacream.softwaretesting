@@ -1,6 +1,8 @@
 booksservice_test_suite:
     fixture:
         booksService = BooksService()
+        booksService = Spy(TRACE, booksService)
+        booksService.isbngenerator = Spy(TRACE, PERFORMANCE, booksService.isbn)
         database:
             name: 'booksservice'
             type='mysql'
