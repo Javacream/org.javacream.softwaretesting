@@ -1,19 +1,10 @@
 booksservice_test_suite:
     fixture:
         booksService = BooksService()
-        booksService = Spy(TRACE, booksService)
-        booksService.isbngenerator = Spy(TRACE, PERFORMANCE, booksService.isbn)
-        database:
-            name: 'booksservice'
-            type='mysql'
-            schema='schema.sql'
-            data='data.sql'
-        database:
-            name: 'isbngenerator'
-            type='mysql'
-            schema='isbn_schema.sql'
-            data='isbn_data.sql'
-
+        booksService = Spy(TRACE, PERFORMANCE, booksService)
+        booksService.isbngenerator = Spy(NETWORK(10), booksService.isbngenerator)
+        system:
+            file: booksservice.integration-docker-compose.yml
     create_test_suite:
         valid_parameters_creates_isbn:
             title='Testing'
