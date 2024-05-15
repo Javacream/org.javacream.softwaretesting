@@ -1,10 +1,16 @@
 booksservice_test_suite:
     fixture:
         booksService = BooksService()
-            database:
-                type='mysql'
-                schema='schema.sql', 'isbn_schema.sql'
-                data='data.sql', 'isbn_data.sql'
+        database:
+            name: 'booksservice'
+            type='mysql'
+            schema='schema.sql'
+            data='data.sql'
+        database:
+            name: 'isbngenerator'
+            type='mysql'
+            schema='isbn_schema.sql'
+            data='isbn_data.sql'
 
     create_test_suite:
         valid_parameters_creates_isbn:
