@@ -1,0 +1,51 @@
+booksservice_test_suite:
+    create_test_suite:
+        valid_parameters_creates_isbn:
+            title='Testing'
+            pages=100
+            price=19.99
+            isbn=create(title, pages, price)
+            assert_notnull(isbn)
+
+        invalid_title_signals_error:
+            title=None
+            pages=100
+            price=19.99
+            result=create(title, pages, price)
+            assert_failure(result)
+
+        invalid_price_signals_error:
+            title='Testing'
+            pages=100
+            price=-1.99
+            result=create(title, pages, price)
+            assert_failure(result)
+
+        invalid_pages_signals_error:
+            title='Testing'
+            pages=0
+            price=1.99
+            result=create(title, pages, price)
+            assert_failure(result)
+
+    find_by_isbn_test_suite:
+        valid_isbn_finds_book:
+            isbn='ISBN-1-dk'
+            result=find_by_isbn(isbn)
+            # ich finde leider keine gültige assertion...
+        valid_isbn_finds_book_if_book_is_created:
+            title='Testing'
+            pages=100
+            price=19.99
+            isbn=create(title, pages, price)
+            book=find_by_isbn(isbn)
+            assert_notnull(book)
+
+    find_all_test_suite:
+        #TODO
+    update_test_suite:
+        #TODO
+    delete_by_isbn_test_suite:
+        #TODO
+
+    
