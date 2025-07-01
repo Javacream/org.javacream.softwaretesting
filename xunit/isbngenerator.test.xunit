@@ -16,3 +16,7 @@ isbngeneratorservice_test_suite:
             splitted = isbn.split('-')
             country_code = splitted[2]
             assert_equals(2, country_code.length)
+        generated_isbns_are_unique:
+            isbn1 = next()
+            isbn2 = next()
+            assert_not_equal(isbn1, isbn2)
