@@ -1,49 +1,96 @@
 booksservice_test_suite:
-    fixture:
-        isbn_generator = Dummy()
-        store_service = Dummy()
-        books_service = BookService(isbn_generator, store_service)
-    create_test_suite:
-        valid_parameters_creates_isbn:
-            title='Testing'
-            pages=100
-            price=19.99
-            isbn=books_service.create(title, pages, price)
-            assert_equals(isbn, 'String') # IsbnGeneratorService-Dummy liefert als isbn immer 'String'
+    books_service_mock_tests:
+        create_test_suite:
+            fixture:
+                isbn_generator = Mock()
+                isbn_generator.expect(next()).and_return('ISBN-1-dk')
+                store_service = Dummy()
+                books_service = BookService(isbn_generator, store_service)
+            valid_parameters_creates_isbn:
+                title='Testing'
+                pages=100
+                price=19.99
+                isbn=books_service.create(title, pages, price)
+                assert_equals(isbn, 'ISBN-1-dk') # IsbnGeneratorService-Dummy liefert als isbn immer 'String'
+                isbn_generator.validate()
+            invalid_title_signals_error:
+                title=None
+                pages=100
+                price=19.99
+                result=books_service.create(title, pages, price)
+                assert_failure(result)
 
-        invalid_title_signals_error:
-            title=None
-            pages=100
-            price=19.99
-            result=books_service.create(title, pages, price)
-            assert_failure(result)
+            invalid_price_signals_error:
+                title='Testing'
+                pages=100
+                price=-1.99
+                result=books_service.create(title, pages, price)
+                assert_failure(result)
 
-        invalid_price_signals_error:
-            title='Testing'
-            pages=100
-            price=-1.99
-            result=books_service.create(title, pages, price)
-            assert_failure(result)
+            invalid_pages_signals_error:
+                title='Testing'
+                pages=0
+                price=1.99
+                result=books_service.create(title, pages, price)
+                assert_failure(result)
 
-        invalid_pages_signals_error:
-            title='Testing'
-            pages=0
-            price=1.99
-            result=books_service.create(title, pages, price)
-            assert_failure(result)
+        find_by_isbn_test_suite:
+            fixture:
+                isbn_generator = Dummy()
+                store_service = Mock()
+                store_service.expect(get_stock('books', 'ISBN-1-dk')).and_return(42)
+                books_service = BookService(isbn_generator, store_service)
+            valid_isbn_finds_book:
+                isbn='ISBN-1-dk'
+                result=books_service.find_by_isbn(isbn)
+                # ich finde leider keine gültige assertion...
+                store_service.validate() # aber ich kann validieren, dass eine Bestandssuche mit category='books' und item='ISBN-1-dk' durchgeführt wurde
+    books_service_dummy_tests:
+        fixture:
+            isbn_generator = Dummy()
+            store_service = Dummy()
+            books_service = BookService(isbn_generator, store_service)
+        create_test_suite:
+            valid_parameters_creates_isbn:
+                title='Testing'
+                pages=100
+                price=19.99
+                isbn=books_service.create(title, pages, price)
+                assert_equals(isbn, 'String') # IsbnGeneratorService-Dummy liefert als isbn immer 'String'
 
-    find_by_isbn_test_suite:
-        valid_isbn_finds_book:
-            isbn='ISBN-1-dk'
-            result=books_service.find_by_isbn(isbn)
-            # ich finde leider keine gültige assertion...
-        valid_isbn_finds_book_if_book_is_created:
-            title='Testing'
-            pages=100
-            price=19.99
-            isbn=books_service.create(title, pages, price)
-            book=books_service.find_by_isbn(isbn)
-            assert_false(book.available) # StoreService-Dummy liefert als stock immer 0
+            invalid_title_signals_error:
+                title=None
+                pages=100
+                price=19.99
+                result=books_service.create(title, pages, price)
+                assert_failure(result)
+
+            invalid_price_signals_error:
+                title='Testing'
+                pages=100
+                price=-1.99
+                result=books_service.create(title, pages, price)
+                assert_failure(result)
+
+            invalid_pages_signals_error:
+                title='Testing'
+                pages=0
+                price=1.99
+                result=books_service.create(title, pages, price)
+                assert_failure(result)
+
+        find_by_isbn_test_suite:
+            valid_isbn_finds_book:
+                isbn='ISBN-1-dk'
+                result=books_service.find_by_isbn(isbn)
+                # ich finde leider keine gültige assertion...
+            valid_isbn_finds_book_if_book_is_created:
+                title='Testing'
+                pages=100
+                price=19.99
+                isbn=books_service.create(title, pages, price)
+                book=books_service.find_by_isbn(isbn)
+                assert_false(book.available) # StoreService-Dummy liefert als stock immer 0
 
     find_all_test_suite:
         #TODO
