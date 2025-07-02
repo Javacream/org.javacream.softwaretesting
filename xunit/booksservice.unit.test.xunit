@@ -1,4 +1,9 @@
 booksservice_test_suite:
+    fixture:
+        database:
+        type='h2'
+        schema='schema.sql'
+        data='data.sql'    
     books_service_mock_tests:
         create_test_suite:
             fixture:
@@ -11,7 +16,7 @@ booksservice_test_suite:
                 pages=100
                 price=19.99
                 isbn=books_service.create(title, pages, price)
-                assert_equals(isbn, 'ISBN-1-dk') # IsbnGeneratorService-Dummy liefert als isbn immer 'String'
+                assert_equals(isbn, 'ISBN-1-dk')
                 isbn_generator.validate()
             invalid_title_signals_error:
                 title=None

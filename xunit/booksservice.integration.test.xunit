@@ -3,6 +3,9 @@ booksservice_test_suite:
         isbn_generator = IsbnGeneratorService()
         store_service = StoreService()
         books_service = BookService(isbn_generator, store_service)
+        database:
+            type='mysql'
+            host='test.javacream.eu'
     create_test_suite:
         valid_parameters_creates_isbn:
             title='Testing'
