@@ -48,8 +48,9 @@ booksservice_test_suite:
             valid_isbn_finds_book:
                 isbn='ISBN-1-dk'
                 result=books_service.find_by_isbn(isbn)
-                # ich finde leider keine gültige assertion...
-                store_service.validate() # aber ich kann validieren, dass eine Bestandssuche mit category='books' und item='ISBN-1-dk' durchgeführt wurde
+                assert_equals(result.title == 'Python')
+                store_service.validate()
+
     books_service_dummy_tests:
         fixture:
             isbn_generator = Dummy()
@@ -88,7 +89,7 @@ booksservice_test_suite:
             valid_isbn_finds_book:
                 isbn='ISBN-1-dk'
                 result=books_service.find_by_isbn(isbn)
-                # ich finde leider keine gültige assertion...
+                assert_equals(result.title == 'Python')
             valid_isbn_finds_book_if_book_is_created:
                 title='Testing'
                 pages=100
@@ -98,10 +99,14 @@ booksservice_test_suite:
                 assert_false(book.available) # StoreService-Dummy liefert als stock immer 0
 
     find_all_test_suite:
-        #TODO
+        database_has_3_books:
+            books = books_service.find_all()
+            assert_equals(3, len(book))
     update_test_suite:
         #TODO
     delete_by_isbn_test_suite:
-        #TODO
-
-    
+        valid_isbn_deletes_book:
+            books_service.delete_by_isbn('ISBN-3-dk')
+        invalid_isbn_deletion_signals_error:
+            result = books_service.delete_by_isbn('UNKNOWN')
+            assert_failure(result)
