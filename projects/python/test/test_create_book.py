@@ -8,11 +8,13 @@ from books.booksservice import BookException
 # from books.isbngenerator import IsbnGenerator
 # from books.storeservice import StoreService
 from books.application_context import books_service
+import testutilities
 
 class CreateBookTest(TestCase):
 
     def setUp(self):
-        self.service = books_service
+        self.service = testutilities.decorate(books_service, testutilities.trace)
+
     def test_create_book_works(self):
         isbn = self.service.create("Python", 19.99) 
         self.assertIsNotNone(isbn)

@@ -11,6 +11,7 @@ booksservice_test_suite:
                 isbn_generator.expect(next()).and_return('ISBN-1-dk')
                 store_service = Dummy()
                 books_service = BookService(isbn_generator, store_service, database)
+                books_service = Spy(TRACE, books_service)
             valid_parameters_creates_isbn:
                 title='Testing'
                 pages=100
