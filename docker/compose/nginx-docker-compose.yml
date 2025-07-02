@@ -1,0 +1,5 @@
+services:
+  ng:
+    image: javacream/test_web_app:1.0
+    ports:
+      - 8078:80

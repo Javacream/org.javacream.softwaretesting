@@ -1,15 +1,12 @@
 booksservice_test_suite:
     fixture:
         isbn_generator = IsbnGeneratorService()
-        store_service = StoreService()
-        database:
-            type='h2'
-            schema:
-              - 'schema.sql'
-              - 'isbn_schema.sql'
-            data:
-              - 'data.sql'
-              - 'isbn_data.sql'    
+#        store_service:
+#            type='image:javacream/storeservice:1.0'
+#        database:
+#            type='image:javacream/testdb:1.0'
+        containers:
+            compose='test-docker-compose.yml'
         books_service = BookService(isbn_generator, store_service, database)
     create_test_suite:
         valid_parameters_creates_isbn:
